@@ -40,6 +40,11 @@ x. Stop and remove Minikube
 # kubectl port-forward --namespace kube-system \
     $(kubectl get po -n kube-system | grep kube-registry-v0 | awk '{print $1;}') 5000:5000 &
 ```
+- list registry images
+```
+# curl -X GET http://localhost:5000/v2/_catalog
+# curl -X GET http://localhost:5000/v2/[imageName]/tags/list
+```
 ### Optional for testing
 - push image to registry
 ```
@@ -52,11 +57,6 @@ x. Stop and remove Minikube
 # docker image remove alpine
 # docker image remove localhost:5000/my-alpine
 # docker pull localhost:5000/my-alpine
-```
-- list registry images
-```
-# curl -X GET http://localhost:5000/v2/_catalog
-# curl -X GET http://localhost:5000/v2/my-alpine/tags/list
 ```
 
 ## Build and test application image
@@ -93,7 +93,7 @@ x. Stop and remove Minikube
 # curl http://localhost:3000/hello
 ```
 
-## Further improvements
+## Further possible improvements
 - may prepare Ansible scripts to automate entire deployment
 - may improve deployment using git webhooks
 
