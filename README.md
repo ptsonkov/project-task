@@ -19,13 +19,18 @@ x. Install kubectl
 # chmod +x kubectl && mv kubectl /usr/local/bin
 ```
 
-x. Start Minikube
+x. Start Minikube (--force if you run as root)
 ```
-# minikube start --driver=docker
+# minikube start --driver=docker --force
 # kubectl cluster-info
 # kubectl get nodes
 # kubectl get pods -n kube-system
 # minikube dashboard
+```
+
+x. Stop and remove Minikube
+```
+# minikube delete
 ```
 
 ## Deploy registry
@@ -57,34 +62,36 @@ x. Start Minikube
 ## Build and test application image
 
 ```
-# cd script
-# ./scripts/imagebilder.sh [versionTag]
-# ./scripts/imagetester.sh [versionTag]
+# ./script/imagebuilder.sh [versionTag]
+# ./script/imagetester.sh [versionTag]
 ```
 
-## Deploy API to Kubernetes and test
+## Deploy API with Helm
 - deploy and wait all posd to become available
 ```
-# ./scripts/kubedeploy.sh
-# kubectl get all -n myns
+# helm install web-api ./helm/web-api --namespace myns --create-namespace
+# helm list -n myns
 ```
 - test web API
 ```
-# ./scripts/kubetester.sh
+# ./script/kubetester.sh
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
+## Deploy API with manifests
+- deploy and wait all posd to become available
+```
+# ./script/kubedeploy.sh
+# watch kubectl get all -n myns
+```
+- test web API
+```
+# ./script/kubetester.sh
+```
+- to test manually need to map host ports to API service
+```
+# kubectl port-forward service/api 3000:3000 -n myns  &
+# curl http://localhost:3000/hello
+```
 
 ## Further improvements
 - may prepare Ansible scripts to automate entire deployment
