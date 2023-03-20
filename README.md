@@ -13,12 +13,6 @@ x. Install and start Minikube
 # chmod +x minikube-linux-amd64 && mv minikube-linux-amd64 /usr/local/bin
 ```
 
-x. Add Minikube autocompletion
-```
-# echo '#source <(minikube completion bash)' >> ~/.bashrc
-# source ~/.bashrc
-```
-
 x. Install kubectl
 ```
 # curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
@@ -34,10 +28,14 @@ x. Start Minikube
 # minikube dashboard
 ```
 
-## Deploy local registry
+## Deploy registry
+- deploy registry to Minikube and map host port 5000 to Minikube port 5000
 ```
-# docker run -d -p 5000:5000 --restart=always --name registry registry:2
+# kubectl apply -f kubernetes/kube-registry.yaml
+# kubectl port-forward --namespace kube-system \
+    $(kubectl get po -n kube-system | grep kube-registry-v0 | awk '{print $1;}') 5000:5000 &
 ```
+### Optional for testing
 - push image to registry
 ```
 # docker pull alpine
@@ -59,12 +57,38 @@ x. Start Minikube
 ## Build and test application image
 
 ```
+# cd script
 # ./scripts/imagebilder.sh [versionTag]
 # ./scripts/imagetester.sh [versionTag]
 ```
 
+## Deploy API to Kubernetes and test
+- deploy and wait all posd to become available
+```
+# ./scripts/kubedeploy.sh
+# kubectl get all -n myns
+```
+- test web API
+```
+# ./scripts/kubetester.sh
+```
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+## Further improvements
+- may prepare Ansible scripts to automate entire deployment
+- may improve deployment using git webhooks
 
 
 

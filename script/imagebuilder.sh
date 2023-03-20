@@ -6,7 +6,7 @@ if [[ $app_version == "" ]]; then
     exit
 fi
 
-cd $(pwd)/..
+mkdir bin
 
 # Optionally can delete existing application binary before new build (need more logic to be added)
 

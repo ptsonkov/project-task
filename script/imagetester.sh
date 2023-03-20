@@ -12,5 +12,5 @@ echo -e "==================================================="
 echo -e "=== Test application"
 curl http://localhost:8080/hello
 echo -e ""
-
+echo -e "=== Stop and remove test container"
 docker stop api-test
