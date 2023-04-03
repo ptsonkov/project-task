@@ -10,21 +10,6 @@ mkdir bin
 
 # Optionally can delete existing application binary before new build (need more logic to be added)
 
-# Build application
-echo -e "==================================================="
-echo -e "=== Build application"
-export CGO_ENABLED=0 
-export GOOS=linux 
-export GOARCH=amd64 
-go build -o bin/api source/main.go
-if [[ $? == 0 ]]; then
-    echo -e "=== Build OK"
-    echo -e ""
-else 
-    echo -e "=== Build FAIL"
-    exit
-fi
-
 # Create docker image
 echo -e "==================================================="
 echo -e "=== Create docker image"
