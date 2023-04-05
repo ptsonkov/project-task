@@ -1,1 +1,7 @@
 bin/
+slim.report.json
+creport.json
+localhost-apparmor-profile
+localhost-seccomp.json
+web-api-apparmor-profile
+web-api-seccomp.json
