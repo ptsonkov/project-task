@@ -19,6 +19,12 @@ x. Install kubectl
 # chmod +x kubectl && mv kubectl /usr/local/bin
 ```
 
+x. Install docker-slim (to build distroless Docker image)
+```
+# curl -LO https://downloads.dockerslim.com/releases/latest/dist_linux.tar.gz
+# tar -xzvf dist_linux.tar.gz -C /usr/local/bin --strip-components=1
+```
+
 x. Start Minikube (--force if you run as root)
 ```
 # minikube start --driver=docker --force
